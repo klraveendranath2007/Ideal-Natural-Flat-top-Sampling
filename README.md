@@ -49,26 +49,33 @@ x = np.cos(2*np.pi*5*t)
 p = ((t*50)%1 < 0.5)        # pulse train
 xn = x * p                 # natural sampling
 
-b,a = butter(4, 10/(0.5*1000))   # low-pass filter
-xr = lfilter(b, a, xn)           # reconstruction
+b,a = butter(4, 10/(0.5*1000))
+xr = lfilter(b, a, xn)
 
-plt.figure(figsize=(10, 3))
-plt.plot(t,x); 
-plt.title("Message Signal");
-plt.grid(); 
+plt.figure(figsize=(10,2))
+plt.plot(t,x)
+plt.title("Message Signal")
+plt.grid()
 plt.show()
 
-plt.figure(figsize=(10, 3))
-plt.plot(t,xn);
-plt.title("Natural Sampling");
-plt.grid();
+plt.figure(figsize=(10,2))
+plt.plot(t,p)
+plt.title("Pulse Train")
+plt.grid()
 plt.show()
 
-plt.figure(figsize=(10, 3))
-plt.plot(t,xr);
-plt.title("Reconstructed Signal");
-plt.grid();
+plt.figure(figsize=(10,2))
+plt.plot(t,xn)
+plt.title("Natural Sampling")
+plt.grid()
 plt.show()
+
+plt.figure(figsize=(10,2))
+plt.plot(t,xr)
+plt.title("Reconstructed Signal")
+plt.grid()
+plt.show()
+
 ```
 ### FLAT-TOP SAMPLING
 ```
@@ -80,27 +87,36 @@ fs = 1000
 t = np.linspace(0, 1, fs)
 x = np.sin(2*np.pi*5*t)
 
-Ts = fs//50                         # sampling interval
-xh = np.repeat(x[::Ts], Ts)[:fs]   # flat-top (sample & hold)
+Ts = fs//50                          # sampling interval
+n = np.arange(0, fs, Ts)             # ideal sampling instants
 
-b, a = butter(4, 10/(0.5*fs))      # low-pass filter
-xr = filtfilt(b, a, xh)            # reconstruction (zero-phase)
+xh = np.repeat(x[n], Ts)[:fs]        # flat-top (sample & hold)
 
-plt.figure(figsize=(10, 3));plt.plot(t, x);
-plt.title("Message Signal");
-plt.grid(); 
+b, a = butter(4, 10/(0.5*fs))
+xr = filtfilt(b, a, xh)
+
+plt.figure(figsize=(10,3))
+plt.plot(t, x)
+plt.title("Message Signal")
+plt.grid()
 plt.show()
 
-plt.figure(figsize=(10, 3));
-plt.plot(t, xh);
-plt.title("Flat-Top Sampling");
-plt.grid();
+plt.figure(figsize=(10,3))
+plt.stem(t[n], x[n], basefmt=" ")
+plt.title("Ideal Sampling Instances")
+plt.grid()
 plt.show()
 
-plt.figure(figsize=(10, 3));
-plt.plot(t, xr);
-plt.title("Reconstructed Signal");
-plt.grid(); 
+plt.figure(figsize=(10,3))
+plt.plot(t, xh)
+plt.title("Flat-Top Sampling")
+plt.grid()
+plt.show()
+
+plt.figure(figsize=(10,3))
+plt.plot(t, xr)
+plt.title("Reconstructed Signal")
+plt.grid()
 plt.show()
 ```
 # OUTPUT WAVEFORM
@@ -108,10 +124,12 @@ plt.show()
 <img width="450" height="451" alt="image" src="https://github.com/user-attachments/assets/d0868cda-83f2-4780-a528-a7beafadf7e3" />
 
 ### NATURAL SAMPLING
-<img width="450" height="451" alt="image" src="https://github.com/user-attachments/assets/b4db140a-b4b0-4785-b172-e68081377b3f" />
+<img width="491" height="715" alt="image" src="https://github.com/user-attachments/assets/998668fb-1f78-49db-aa94-1d69f27972da" />
+
 
 ### FLAT-TOP SAMPLING
-<img width="450" height="453" alt="image" src="https://github.com/user-attachments/assets/86380f08-fd2a-4e8d-895f-8bd9bc1958cc" />
+<img width="527" height="748" alt="image" src="https://github.com/user-attachments/assets/ed97df3b-ad15-457a-a886-d9b6f25639a7" />
+
 
 # RESULT
 Thus, the python program for ideal sampling, natural sampling and flat-top sampling has been executed and verified successfully.
